@@ -1,0 +1,6 @@
+*~
+*.zip
+out
+out.*
+runs
+stylegan2-ada-pytorch/

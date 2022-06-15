@@ -1,0 +1,32 @@
+<%page args="i, last_idx"/>
+% if i==0:
+  <div class="accordion is-active">
+% else:
+  <div class="accordion">
+% endif
+  <div class="accordion-header toggle"
+    onclick="loadExample(${i})">
+    <p>Example ${i+1}</p>
+  </div>
+  <div class="accordion-body">
+    <div class="accordion-content">
+      <div class="columns">
+	<div class="column img">
+	  <img src="${'%.2d' % i}_000000.png">
+	  <div class="domain">Negative</div>
+	</div>
+	<div class="column img">
+	  <img src="${'%.2d' % i}_${'%.6d' % last_idx}.png">
+	  <div class="domain">Positive</div>
+	</div>
+      </div>
+      <div>
+	<input class="slider is-fullwidth is-large is-info"
+	       step="1" min="0" max="${last_idx}" value="0"
+	       type="range" oninput="sliderChange(this, ${i})"
+	       onchange="sliderChange(this, ${i})"
+	       id="slider${i}">
+      </div>
+    </div>
+  </div>
+</div>

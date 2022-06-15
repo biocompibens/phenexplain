@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<script src="assets/bulma-slider.min.js"></script>
+	<script src="assets/fabric.min.js"></script>
+	<link rel="stylesheet" media="all" href="assets/bulma.min.css">
+	<link rel="stylesheet" media="all" href="assets/bulma-slider.min.css">
+	<script>
+	 var floating;
+	 var c;
+	 function init(scale=1.0)
+	 {
+	     c = new fabric.StaticCanvas('canvas');
+	     
+	     fabric.Image.fromURL('00.png', function(img){
+		 floating = img;
+		 floating.set({opacity: 1,
+			       scaleX: scale, scaleY: scale,
+			       imageSmoothing: false});
+		 c.add(floating);	  
+	     });  
+	 }
+	 function sliderChange(slider)
+	 {
+	     let value = slider.value;
+	     
+	     let filename = value.toString().padStart(2, '0') + ".png";
+	     floating.setSrc(filename);
+	     c.requestRenderAll();
+	 }
+	</script>
+    </head>
+    <body>
+	<div class="container is-fluid" style="margin: auto;">
+	    <div class="columns">
+		<canvas id="canvas" width="800" height="700">
+	    </div>
+	    <div>
+		<input class="slider is-large is-info"
+		       step="1" min="0" max="${len(paths)-1}" value="0"
+		       type="range" oninput="sliderChange(this)"
+		       onchange="sliderChange(this)"
+		       id="slider" style="width: 800px;" >
+	    </div>
+	</div>
+	<script>
+	 window.onload = function() {
+	     to_load = [
+		 % for p in paths:
+		 "${p}",
+		 % endfor
+	     ];
+	     init();
+	 }
+	</script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+click
+tqdm
+ninja
+torch
+torchvision
+opencv-python
+mako

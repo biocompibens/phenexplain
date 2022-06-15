@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Phenexplain Demonstration</title>
+      <script src="assets/fabric.min.js"></script>
+      <link rel="stylesheet" media="all" href="assets/bulma.min.css">
+      <script src="assets/bulma-accordion.min.js"></script>
+      <link rel="stylesheet" media="all"
+	    href="assets/bulma-accordion.min.css">
+      <script src="assets/bulma-slider.min.js"></script>
+      <link rel="stylesheet" media="all" href="assets/bulma-slider.min.css">
+      <script>
+	var floating;
+	var c;
+	var zoomedIn = false;
+	 function init(scale=1.0)
+	 {
+	     c = new fabric.StaticCanvas('canvas');
+	     
+	     fabric.Image.fromURL('00.png', function(img){
+		 floating = img;
+		 floating.set({opacity: 1,
+			       scaleX: scale, scaleY: scale,
+			       imageSmoothing: false});
+		 c.add(floating);	  
+	     });  
+	 }
+	function sliderChange(slider, id)
+	 {
+	     let value = slider.value.toString().padStart(6, '0');
+	     id = id.toString().padStart(2, '0')
+	     let filename = id + "_" + value + ".png";
+	     floating.setSrc(filename);
+	     c.requestRenderAll();
+	 }
+	
+	function switchZoomIn(checkbox)
+	{
+	    if (checkbox.checked == true) {
+		zoomedIn = true;
+		floating.set({scaleX: 2.0,
+			      scaleY: 2.0});
+	    } else {
+		zoomedIn = false;
+		floating.set({scaleX: 1.0,
+			      scaleY: 1.0});
+		
+	    }
+	    c.requestRenderAll();
+	}
+      </script>
+  </head>
+  <body>
+    <div class="container is-fluid" id="main_container">
+      <div class="columns">
+      <div class="column">
+	<canvas id="canvas" width="800" height="700"></canvas>
+      </div>
+      <div class="column">
+	  <section class="accordions">
+	      <% count = 0 %>
+	      % for i in ids:
+	      <%include file="item.html" args="i=i,last_idx=last_idx" />
+	      <% count += 1 %>
+	      % if count % 16 ==0:
+	  </section>
+      </div>
+      <div class="column">
+	  <section class="accordions">
+	      % endif
+	      % endfor
+
+	  <div class="accordion is-active">
+	    <div class="accordion-header toggle">
+	      <p>Options</p>
+	    </div>
+	    <div class="accordion-body">
+	      <div class="accordion-content">
+		<label class="checkbox">
+		  <input type="checkbox" onclick="switchZoomIn(this)"> Scale image preview 200%
+		</label><br>
+	      </div>
+	    </div>
+	  </div>
+	</section>
+      </div>
+      </div>
+      </div>
+    </div>
+
+    <script>
+      window.onload = function() {
+	  init();
+      }
+    </script>
+  </body>
+</htm>
