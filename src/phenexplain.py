@@ -73,6 +73,7 @@ def single(stylegan_weights, clazz, class_idxs, output=None,
                 im = convert_image((imgs[j] - _min) / (_max - _min))
                 save_png(im, os.path.join(outputdir, '%02d_%06d.png' % (k, j)))
     make_list_index(outputdir, samples, steps)
+    print("The results can be seen in {}".format(os.path.join(outputdir, 'index.html')))
 
     
 def grid(stylegan_weights, clazz, class_idxs, output=None,
