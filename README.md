@@ -30,6 +30,16 @@ The preceding command should produce a subdirectory in the `runs` directory, con
 * Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples:  
 `python phenexplain.py DATASET -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
 
+## Example Dataset (BBBC021)
+
+An example dataset, based on the BBBC021 dataset and containing the compounds that we used in the paper, is available here:
+[BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip). It has already been prepared for training with StyleGAN2, and it contains 72 classes, each (compound, concentration) being a separate class.
+
+Training can be performed with:  
+`python stylegan2-ada-pytorch/train.py --data BBBC021_selection.zip --outdir runs --mirror 1 --cond 1`
+
+Alternatively, you can download a set of pretrained weights here:  
+(...)
 
 ## Licence
 
