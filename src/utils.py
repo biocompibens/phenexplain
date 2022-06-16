@@ -4,7 +4,8 @@ import json
 import numpy as np
 import PIL.Image
 from PIL import Image
-from PIL import Image, ImageDraw, ImageFont	
+from PIL import Image, ImageDraw, ImageFont
+from zipfile import ZipFile
 import cv2
 
 
@@ -14,11 +15,22 @@ def load_classes(path):
     else:
         json_path = os.path.join(path, 'dataset.json')
     if not os.path.exists(json_path):
-        print("Could not find the JSON file containing the id/class association",
-              file=sys.stderr)
-        sys.exit(1)
-    with open(json_path, 'r') as f:
-        data = json.load(f)
+        # if we didn't find a JSON file, try to find it in the ZIP file.
+        found = False
+        if path.endswith('.zip'):
+            with ZipFile(path) as myzip:
+                with myzip.open('dataset.json') as f:
+                    data = json.load(f)
+                    if 'class_index' in data.keys():
+                        found = True
+        if not found:
+            print("Could not find the JSON file containing the id/class association",
+                  file=sys.stderr)
+            sys.exit(1)
+    else:
+        with open(json_path, 'r') as f:
+            data = json.load(f)
+
     if not 'class_index' in data:
         print("The JSON file we found did not contain the id/class association",
               file=sys.stderr)

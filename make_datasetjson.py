@@ -2,7 +2,10 @@ import os
 import sys
 import json
 import click
+import shutil
+from io import BytesIO
 import numpy as np
+from zipfile import ZipFile
 from glob import glob
 
 
@@ -11,7 +14,8 @@ from glob import glob
               help="Location of the SyleGAN repository.")
 @click.option('-d', '--dataset-destination', default='',
               help="If provided, will output the dataset zip and JSON files there instead of using PATH.")
-@click.option('-o', '--options', help="Additional options for StyleGAN's dataset-tool")
+@click.option('-o', '--options', default='',
+              help="Additional options for StyleGAN's dataset-tool")
 @click.argument('path', type=click.Path(exists=True))
 def main(path, stylegan_path, dataset_destination, options):
     """
@@ -31,10 +35,10 @@ def main(path, stylegan_path, dataset_destination, options):
                     'class_index': class_index}
     json_string = json.dumps(dataset_dict)
     if dataset_destination == '':
-            dataset_destination = os.path.join(path, 'dataset.json')
-        else:
-            dataset_destination = os.path.join(mydir, dataset_destination, 'dataset.json')
-    with open(dataset_destination, 'w') as outfile:
+        tmppath = 'dataset.json'
+    else:
+        tmppath = os.path.join(mydir, dataset_destination, 'dataset.json')
+    with open(tmppath, 'w') as outfile:
         outfile.write(json_string)
 
     print("Calling StyleGAN's dataset_tool")
@@ -45,11 +49,11 @@ def main(path, stylegan_path, dataset_destination, options):
         dataset_tool_path = os.path.join(mydir, stylegan_path, 'dataset_tool.py')
     if os.path.exists(dataset_tool_path):
         if dataset_destination == '':
-            dataset_destination = os.path.join(path, 'dataset.zip')
+            dataset_destination = os.path.join('dataset.zip')
         else:
             dataset_destination = os.path.join(mydir, dataset_destination, 'dataset.zip')
         cmd = "python {} --source {} --dest {} {}".format(dataset_tool_path,
-                                                          path, dataset_destination,
+                                                          '.', dataset_destination,
                                                           options)
         print(cmd)
         os.system(cmd)
@@ -57,6 +61,22 @@ def main(path, stylegan_path, dataset_destination, options):
         print(dataset_tool_path)
         print("StyleGAN dataset_tool.py not found", file=sys.stderr)
         sys.exit(1)
+
+    # add the id/class association in the JSON file that is inside dataset.zip
+    tmppath = dataset_destination.replace('dataset.zip', 'tmp.zip')
+    with ZipFile(dataset_destination, 'r') as inzip, ZipFile(tmppath, 'w') as outzip:
+        for item in inzip.infolist():
+            if item.filename == 'dataset.json':
+                with inzip.open('dataset.json', 'r') as f:
+                    jsn = json.load(f)
+                jsn['class_index'] = dataset_dict['class_index']
+                outzip.writestr('dataset.json', json.dumps(jsn))
+            else:
+                # copy the file
+                data = inzip.read(item.filename)
+                outzip.writestr(item.filename, data)
+    shutil.move(tmppath, dataset_destination)
+                
 
     print("Done. Your dataset is in {}.".format(dataset_destination))
     print("You can train a StyleGAN model with the following command: ")
