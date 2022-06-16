@@ -43,4 +43,6 @@ Alternatively, you can download a set of pretrained weights here:
 
 ## Licence
 
+This work is released under the MIT licence.
+
 ## Citation
