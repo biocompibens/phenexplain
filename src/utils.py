@@ -3,10 +3,13 @@ import sys
 import json
 import numpy as np
 import PIL.Image
+from io import BytesIO
 from PIL import Image
 from PIL import Image, ImageDraw, ImageFont
 from zipfile import ZipFile
 import cv2
+import torchvision.transforms.functional as TF
+from torchvision import transforms, utils
 
 
 def load_classes(path):
@@ -112,3 +115,21 @@ def save_video(images, filename, fps=5):
         video.write(im)
     cv2.destroyAllWindows()
     video.release()
+
+
+def sample_grid(zipfilename, targets, output, samples=3):
+    with ZipFile(zipfilename, mode='r') as zipobj:
+        with zipobj.open("dataset.json") as datasetobj:
+            jsondata = json.load(datasetobj)
+        data = np.array(jsondata['labels'])
+        clazz = np.array(jsondata['class_index'])
+        imgs = []
+        for i in range(samples):
+            for idx in targets:
+                filename = np.random.choice(data[data[:,1] == str(idx),0],1)[0]
+                image_data = zipobj.read(filename)
+                fh = BytesIO(image_data)
+                imgs.append(TF.to_tensor(Image.open(fh)))
+        grid = utils.make_grid(imgs, nrow = len(targets), normalize=True, pad_value=1)
+        output_images = convert([grid], labels=clazz[np.array(targets)][:,0])
+        save_png(output_images[0], output)

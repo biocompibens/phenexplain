@@ -2,7 +2,7 @@ import os
 import sys
 import click
 
-from src.utils import load_classes
+from src.utils import load_classes, sample_grid
 import src.phenexplain as phenexplain
 
 @click.command()
@@ -30,9 +30,11 @@ import src.phenexplain as phenexplain
 @click.option('-w', '--weights', help="Path to the weights of a trained model [.pkl]")
 @click.option('-p', '--stylegan-path', default='stylegan2-ada-pytorch', show_default=True,
               help="Location of the SyleGAN repository.")
+@click.option('-R', '--real-images', is_flag=True,
+              help="Extract a sample of images from the dataset for easier viewing.")
 @click.argument('dataset')
 def main(dataset, weights, method, list_classes, targets, samples, steps,
-         gpu, out, mode, stylegan_path):
+         gpu, out, mode, stylegan_path, real_images):
     # add stylegan's path to our include path in order
     # to be able to import dnnlib and torch_utils
     if os.path.exists(stylegan_path) and os.path.isdir(stylegan_path):
@@ -49,8 +51,19 @@ def main(dataset, weights, method, list_classes, targets, samples, steps,
         for k in range(len(labels)):
             print(" {}\t{}".format(k, labels[k]))
         sys.exit(0)
+
     method = int(method)
     targets = list(map(int, targets.split(',')))
+
+    if real_images:
+        if not out.endswith('.png'):
+            print('--real-images option requires a PNG output',
+                  file=sys.stderr)
+            sys.exit(-1)
+            
+        sample_grid(dataset, targets, out, samples)
+        print("Sample of real images generated in {}".format(out))
+        sys.exit(0)
 
     if mode == 'grid':
         phenexplain.grid(weights, classes, targets, out,
