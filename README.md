@@ -37,8 +37,11 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing backups of the network called `network-snapshot-xxx.pkl`. Use one of these snapshots with Phenexplain to explore transitions between classes.
 
 * Get the indices of the available classes:
+
 `python phenexplain.py DATASET -w snapshot.pkl -l`
-* Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples:  
+
+* Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples: 
+
 `python phenexplain.py DATASET -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
 
 ## Licence
