@@ -8,9 +8,9 @@
 
 ## Using Phenexplain on a pretrained network
 
-A subset of 72 conditions (each compound_concentration being a separate condition) from the BBBC021 dataset should be download here: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus for all of these conditions and condition labels needed by phenexplain.
+Download a subset of 72 conditions (each compound_concentration being a separate condition) from the BBBC021 dataset: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus for all of these conditions and condition labels needed by phenexplain.
 
-The weights of a conditional StyleGAN2 pretrained on this dataset should be download here: [BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
+Download the weights of a conditional StyleGAN2 pretrained on this dataset: [BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
 
 Using these two files, the following command will generate 5 examples of translations from DMSO (class 0) to taxol at concentration 3 µM/ml (condition index 72). The script will also output an HTML file for easy exploration of the images, and output the path to this file:  
 `python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M single -s 20 -n 5 -t 0,72`
