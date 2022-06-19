@@ -32,7 +32,7 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 `python [stylegan-path]/train.py --data DATASET.zip --outdir runs --mirror 1 --cond 1`
 
-## Using Phenexplain on a trained network
+### Using Phenexplain on your trained network
 
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing backups of the network called `network-snapshot-xxx.pkl`. Use one of these snapshots with Phenexplain to explore transitions between classes.
 
