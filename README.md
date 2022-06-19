@@ -5,9 +5,19 @@
 * Python libraries: pip install click tqdm ninja torch torchvision opencv-python mako
 * The official[ StyleGAN2 repository]( https://github.com/NVlabs/stylegan2-ada-pytorch/) should be cloned inside phenexplain's directory. If installed elsewhere, be sure to use the --stylegan-path option.
 
+
+## Using Phenexplain on a pretrained network
+
+A subset of 72 conditions (each compound_concentration being a separate condition) from the BBBC021 dataset should be download here: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus for all of these conditions and condition labels needed by phenexplain.
+
+The weights of a conditional StyleGAN2 pretrained on this dataset should be download here: [BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
+
+Using these two files, the following command will generate 5 examples of translations from DMSO (class 0) to taxol at concentration 3 µM/ml (condition index 72). The script will also output an HTML file for easy exploration of the images, and output the path to this file:  
+`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M single -s 20 -n 5 -t 0,72`
+
 ## Using your own dataset
 
-### Preparing the dataset
+### Preparing your dataset for training
 
 * Your dataset should be a directory containing a subdirectory for each condition with corresponding images inside:
     * DATASET/condition1
@@ -29,19 +39,6 @@ The previous command produces a subdirectory in the `runs` directory of StyleGAN
 `python phenexplain.py DATASET -w snapshot.pkl -l`
 * Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples:  
 `python phenexplain.py DATASET -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
-
-## Example Dataset (BBBC021)
-
-An example dataset, based on the BBBC021 dataset that contains compounds we used in the paper is available here: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It has already been prepared for training with StyleGAN2, and it contains 72 conditions, each compound_concentration being a separate condition.
-
-Training can be performed with:  
-`python stylegan2-ada-pytorch/train.py --data BBBC021_selection.zip --outdir runs --mirror 1 --cond 1`
-
-Alternatively, you can download a set of pretrained weights here:  
-[BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
-
-Using these, the following command will generate 5 examples of translations from DMSO (class 0) to taxol at concentration 3 µM/ml (class 72). The script will also output an HTML file for easy exploration of the images, and output the path to this file:  
-`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M single -s 20 -n 5 -t 0,72`
 
 ## Licence
 
