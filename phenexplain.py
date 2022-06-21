@@ -15,8 +15,11 @@ import src.phenexplain as phenexplain
               "individual images, but only works for two targets at a time.")
 @click.option('-l', '--list-classes', is_flag=True,
               help="List the available classes with their indices and exit.")
-@click.option('-t', '--targets', default='0,1', show_default=True,
+@click.option('-t', '--targets',
               help="Indices of the targets, separated by a comma. You can find "+
+              "the indices/labels associations with the -l option")
+@click.option('-T', '--target_labels',
+              help="Labels of the targets, separated by a comma. You can find "+
               "the indices/labels associations with the -l option")
 @click.option('-n', '--samples', default=5, show_default=True,
               help="Number of sample vectors to use")
@@ -33,8 +36,8 @@ import src.phenexplain as phenexplain
 @click.option('-R', '--real-images', is_flag=True,
               help="Extract a sample of images from the dataset for easier viewing.")
 @click.argument('dataset')
-def main(dataset, weights, method, list_classes, targets, samples, steps,
-         gpu, out, mode, stylegan_path, real_images):
+def main(dataset, weights, method, list_classes, targets, target_labels,
+         samples, steps, gpu, out, mode, stylegan_path, real_images):
     # add stylegan's path to our include path in order
     # to be able to import dnnlib and torch_utils
     if os.path.exists(stylegan_path) and os.path.isdir(stylegan_path):
@@ -44,7 +47,8 @@ def main(dataset, weights, method, list_classes, targets, samples, steps,
               file=sys.stderr)
         sys.exit(-2)
 
-    labels, classes = load_classes(dataset)
+    # load the id/class association
+    labels, classes, cl_hash = load_classes(dataset)
     if list_classes:
         print("The following classes are available:")
         print(" index\tname")
@@ -53,7 +57,22 @@ def main(dataset, weights, method, list_classes, targets, samples, steps,
         sys.exit(0)
 
     method = int(method)
-    targets = list(map(int, targets.split(',')))
+    if targets and target_labels:
+        print("Please only use one of -t and -T options.",
+              file=sys.stderr)
+        sys.exit(-1)
+    elif targets:
+        targets = list(map(int, targets.split(',')))
+    elif target_labels:
+        try:
+            targets = [cl_hash[t] for t in target_labels.split(',')]
+        except KeyError as err:
+            print("Target not found: {}".format(err.args[0]), file=sys.stderr)
+            sys.exit(-5)
+    else:
+        print("Please provide a list of targets with either the -t (id) or -T (labels) option",
+              file=sys.stderr)
+        sys.exit(-1)
 
     if real_images:
         if not out.endswith('.png'):

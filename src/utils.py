@@ -39,9 +39,11 @@ def load_classes(path):
               file=sys.stderr)
         sys.exit(2)
     labels = {}
+    h = {}
     for k, v in data['class_index']:
         labels[v] = k
-    return labels, np.array(data['class_index'])
+        h[k] = v
+    return labels, np.array(data['class_index']), h
 
 
 # convert one image tensor to numpy [0,255]
