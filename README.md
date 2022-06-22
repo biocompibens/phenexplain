@@ -1,5 +1,6 @@
 # Phenexplain &mdash; Official PyTorch implementation
 
+![Teaser image](./docs/teaser.png)
 
 ## Requirements
 
