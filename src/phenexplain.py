@@ -84,7 +84,7 @@ def single(stylegan_weights, clazz, class_idxs, output=None,
 def grid(stylegan_weights, clazz, class_idxs, output=None,
          samples=3, method=3, steps=5, gpu='cuda:0'):
     if not(output is None) and (output.endswith('.png')):
-        steps=0
+        steps=2
 	
     if gpu == 'cpu':
         fp32 = True
