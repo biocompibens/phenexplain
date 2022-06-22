@@ -23,7 +23,7 @@
 
 `python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M grid -s 50 -n 5 -t 0,72 -o synthetic.avi`
 
-* You may also display real images from the zip file for comparison this way:
+* You may also display real images from the dataset file for comparison this way:
 
 `python phenexplain.py BBBC021_selection.zip -M grid -n 5 -t 0,72 -o real.png -R`
 
