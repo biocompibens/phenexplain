@@ -9,7 +9,7 @@
 
 ## Using Phenexplain on a pretrained network
 
-* Download a subset of 72 conditions we prepared (each compound_concentration being a separate condition) from the BBBC021 dataset: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus for all of these conditions and condition annotations.
+* Download a subset of 73 conditions we prepared (each compound_concentration being a separate condition) from the BBBC021 dataset: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus for all of these conditions and condition annotations.
 
 * Download the weights of a conditional StyleGAN2 pretrained on this dataset: [BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
 
@@ -17,9 +17,9 @@
 
 `python phenexplain.py BBBC021_selection.zip -l`
 
-* The following command will generate 5 examples of translations from DMSO (condition index 0) to taxol at concentration 3 µM/ml (condition index 72). The script will also output an HTML file for easy exploration of the images (explore options to generate .avi, .gif or .png files):
+* The following command will generate a video (.avi file that can be read with Fiji) grid of 5 examples of translations from DMSO (condition index 0) to taxol at concentration 3 µM/ml (condition index 72):
 
-`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M single -s 20 -n 5 -t 0,72`
+`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M single -s 50 -n 5 -t 0,72 -o out.avi`
 
 ## Using Phenexplain on your own dataset
 
