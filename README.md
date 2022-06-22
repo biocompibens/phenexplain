@@ -14,6 +14,7 @@
 * Download the weights of a conditional StyleGAN2 pretrained on this dataset: [BBBC021_weights_5600.pkl](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_weights_5600.pkl) (279M)
 
 * Get the list of condition indices
+
 `python phenexplain.py BBBC021_selection.zip -l`
 
 * The following command will generate 5 examples of translations from DMSO (condition index 0) to taxol at concentration 3 µM/ml (condition index 72). The script will also output an HTML file for easy exploration of the images (explore options to generate .avi, .gif or .png files):
