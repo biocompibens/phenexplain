@@ -1,5 +1,7 @@
 # Phenexplain &mdash; Official PyTorch implementation
 
+![Teaser image](./docs/teaser.png)
+
 ## Requirements
 
 * Python libraries: pip install -r requirements.txt  
