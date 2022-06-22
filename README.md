@@ -4,7 +4,7 @@
 
 * Python libraries: pip install -r requirements.txt  
   (Main requirements are pytorch, opencv-python, mako. StyleGAN2 currently does not work with the latest PyTorch version.)
-* The official[ StyleGAN2 repository]( https://github.com/NVlabs/stylegan2-ada-pytorch/) should be cloned inside phenexplain's directory. If installed elsewhere, be sure to use the --stylegan-path option.
+* The official[ StyleGAN2 repository]( https://github.com/NVlabs/stylegan2-ada-pytorch/) should be cloned inside phenexplain's directory. If installed elsewhere, make sure to use the --stylegan-path option.
 
 
 ## Using Phenexplain on a pretrained network
