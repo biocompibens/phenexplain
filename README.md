@@ -49,11 +49,11 @@ Make sure you trained StyleGAN2 long enough to consistently generate good images
 
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing regular backups of the network called `network-snapshot-xxx.pkl`. Use one of the last snapshots with Phenexplain to explore transitions between classes.
 
-* Get the indices of the available classes:
+* Get the indices of the available condition indices:
 
 `python phenexplain.py DATASET.zip -w snapshot.pkl -l`
 
-* Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples: 
+* Generate videos of transitions between condition 0 and condition 1 in 20 steps for 5 sample: 
 
 `python phenexplain.py DATASET.zip -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
 
