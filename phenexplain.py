@@ -41,7 +41,7 @@ def main(dataset, weights, method, list_classes, targets, target_labels,
     # add stylegan's path to our include path in order
     # to be able to import dnnlib and torch_utils
     if os.path.exists(stylegan_path) and os.path.isdir(stylegan_path):
-        sys.path.append(stylegan_path)
+        sys.path.insert(0, stylegan_path)
     else:
         print("StylGAN not found. Please use the --stylegan-path option.",
               file=sys.stderr)

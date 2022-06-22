@@ -12,6 +12,11 @@ from src.html import make_simple_index, make_list_index
 def single(stylegan_weights, clazz, class_idxs, output=None,
            samples=3, method=3, steps=5, gpu='cuda:0'):
     assert(len(class_idxs)==2)
+
+    if gpu == 'cpu':
+        fp32 = True
+    else:
+        fp32 = False
 	
     with open(stylegan_weights, 'rb') as f:
         SG = pickle.load(f)
@@ -65,7 +70,7 @@ def single(stylegan_weights, clazz, class_idxs, output=None,
 	    
             Wj = torch.stack(Wj)
 	    
-            imgs = G.synthesis(Wj, noise_mode='const')
+            imgs = G.synthesis(Wj, noise_mode='const', force_fp32=fp32)
             _min = torch.min(imgs)
             _max = torch.max(imgs)
 		
@@ -81,6 +86,11 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
     if not(output is None) and (output.endswith('.png')):
         steps=0
 	
+    if gpu == 'cpu':
+        fp32 = True
+    else:
+        fp32 = False
+
     z = None
     images = []
 
@@ -116,7 +126,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
         W_end   = G.mapping(Z, C_end)	
         for j in range(steps):	
             Wj = torch.lerp(W_start, W_end, j / (steps-1))
-            imgs = G.synthesis(Wj, noise_mode='const')
+            imgs = G.synthesis(Wj, noise_mode='const', force_fp32=fp32)
             append(imgs, Wj)
     elif method==1:
         E_start = G.mapping.embed(C_start)
@@ -128,7 +138,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
         for j in range(steps):	
             Ej = torch.lerp(E_start, E_end, j / (steps-1))
             Wj = G.mapping(Z, Ej)
-            imgs = G.synthesis(Wj, noise_mode='const')
+            imgs = G.synthesis(Wj, noise_mode='const', force_fp32=fp32)
             append(imgs, Wj)
     elif method==2:
         W_center = []
@@ -145,7 +155,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
 
         for j in range(steps):	
             Wj = torch.lerp(W_start, W_end, j / (steps-1))
-            imgs = G.synthesis(Wj, noise_mode='const')
+            imgs = G.synthesis(Wj, noise_mode='const', force_fp32=fp32)
             append(imgs, Wj)
     else:
         raise Exception('Invalid method id')
