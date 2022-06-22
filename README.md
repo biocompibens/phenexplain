@@ -21,7 +21,11 @@
 
 * The following command will generate a video (an .avi file that Fiji can read) of a grid of 5 examples of translations from DMSO (condition index 0) to taxol at concentration 3 µM/ml (condition index 72):
 
-`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M grid -s 50 -n 5 -t 0,72 -o out.avi`
+`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M grid -s 50 -n 5 -t 0,72 -o synthetic.avi`
+
+* You may also display real images from the zip file for comparison this way:
+
+`python phenexplain.py BBBC021_selection.zip -M grid -n 5 -t 0,72 -o real.png -R`
 
 ## Using Phenexplain on your own dataset
 
@@ -39,17 +43,19 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 `python [stylegan-path]/train.py --data DATASET.zip --outdir runs --mirror 1 --cond 1`
 
+Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. 
+
 ### Using Phenexplain on your trained network
 
-The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing backups of the network called `network-snapshot-xxx.pkl`. Use one of these snapshots with Phenexplain to explore transitions between classes.
+The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing regular backups of the network called `network-snapshot-xxx.pkl`. Use one of the last snapshots with Phenexplain to explore transitions between classes.
 
 * Get the indices of the available classes:
 
-`python phenexplain.py DATASET -w snapshot.pkl -l`
+`python phenexplain.py DATASET.zip -w snapshot.pkl -l`
 
 * Generate videos of transitions between class 0 and class 1 in 20 steps, for 5 examples: 
 
-`python phenexplain.py DATASET -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
+`python phenexplain.py DATASET.zip -w snapshot.pkl -t 0,1 -n 5 -s 20 -o video.avi`
 
 ## Licence
 
