@@ -80,14 +80,16 @@ def convert(images, labels = None, labels_sequential = False, labels_outside = T
                     im_pil = Image.fromarray(im_white)
                     d = ImageDraw.Draw(im_pil)
                     for i, txt in enumerate(labels):
-                        d.text((thumbsize/2+i*thumbsize,fontsize), txt, font=font, fill='black', anchor="mm")
+                        d.text((thumbsize/2+i*thumbsize,fontsize), txt, font=font,
+                               fill='black', anchor="mm")
                     im_white = np.array(im_pil)
                     im = np.vstack((im_white, im))
                 else:
                     im_pil = Image.fromarray(im)
                     d = ImageDraw.Draw(im_pil)
                     for i, txt in enumerate(labels):
-                        d.text((thumbsize/2+i*thumbsize,10), txt, font=font, fill='white', anchor="mt")
+                        d.text((thumbsize/2+i*thumbsize,10), txt, font=font,
+                               fill='white', anchor="mt")
                     im = np.array(im_pil)
         output_images.append(im)
     return output_images
@@ -99,9 +101,16 @@ def save_png(image, filename):
 
 
 def save_gif(images, filename, fps=5):
-    Image.fromarray(images[0]).save(filename, save_all=True,
-                                    append_images=[Image.fromarray(im) for im in images[1:]],
-                                    duration=1000//fps, loop=0)
+    def remap(im):
+        r = im[:, :, 0].copy()
+        im[:, :, 0] = im[:, :, 2]
+        im[:, :, 2] = r
+        return im
+    first = remap(images[0])
+    rest = [Image.fromarray(remap(im)) for im in images[1:]]
+    Image.fromarray(remap(images[0])).save(filename, save_all=True,
+                                           append_images=rest,
+                                           duration=1000//fps, loop=0)
 
 
 def save_video(images, filename, fps=5):
