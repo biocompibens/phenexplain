@@ -176,7 +176,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
             save_gif(output_images, output, fps=10)
             print("Saved in file {}".format(output))
         elif output.endswith('.png'):
-            save_png(output_images[0], output)
+            save_png(output_images[1], output)
             print("Saved in file {}".format(output))
         else:
             id = np.random.randint(1,10000000000,1)[0]
