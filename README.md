@@ -51,7 +51,7 @@ The previous command produces a subdirectory in the `runs` directory of StyleGAN
 
 * Get the indices of the available condition indices:
 
-`python phenexplain.py DATASET.zip -w snapshot.pkl -l`
+`python phenexplain.py DATASET.zip -l`
 
 * Generate videos of transitions between condition 0 and condition 1 in 20 steps for 5 sample: 
 
