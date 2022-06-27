@@ -21,7 +21,7 @@
 
 * The following command will generate a video (an .avi file that Fiji can read) of a grid of 5 examples of translations from DMSO (condition index 0) to taxol at concentration 3 µM/ml (condition index 72):
 
-`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights_5600.pkl -M grid -s 50 -n 5 -t 0,72 -o synthetic.avi`
+`python phenexplain.py BBBC021_selection.zip -w BBBC021_weights.pkl -M grid -s 50 -n 5 -t 0,72 -o synthetic.avi`
 
 * You may also display real images from the dataset file for comparison this way:
 
