@@ -22,6 +22,8 @@ def main(path, stylegan_path, dataset_destination, options):
     PATH: dataset root directory, containing one subdirectory per class.
     """
     mydir = os.path.dirname(os.path.abspath(__file__))
+
+    dataset_name = os.path.dirname(path) + '.zip'
     
     print('Creating JSON file containing the classes')
     os.chdir(path)
@@ -34,10 +36,7 @@ def main(path, stylegan_path, dataset_destination, options):
     dataset_dict = {'labels' : [[a,int(b)] for (a,b) in zip(file_class[:,0], index)],
                     'class_index': class_index}
     json_string = json.dumps(dataset_dict)
-    if dataset_destination == '':
-        tmppath = 'dataset.json'
-    else:
-        tmppath = os.path.join(mydir, dataset_destination, 'dataset.json')
+    tmppath = 'dataset.json'
     with open(tmppath, 'w') as outfile:
         outfile.write(json_string)
 
@@ -48,12 +47,8 @@ def main(path, stylegan_path, dataset_destination, options):
     else:
         dataset_tool_path = os.path.join(mydir, stylegan_path, 'dataset_tool.py')
     if os.path.exists(dataset_tool_path):
-        if dataset_destination == '':
-            dataset_destination = os.path.join('dataset.zip')
-        else:
-            dataset_destination = os.path.join(mydir, dataset_destination, 'dataset.zip')
         cmd = "python {} --source {} --dest {} {}".format(dataset_tool_path,
-                                                          '.', dataset_destination,
+                                                          '.', dataset_name,
                                                           options)
         print(cmd)
         os.system(cmd)
@@ -63,8 +58,8 @@ def main(path, stylegan_path, dataset_destination, options):
         sys.exit(1)
 
     # add the id/class association in the JSON file that is inside dataset.zip
-    tmppath = dataset_destination.replace('dataset.zip', 'tmp.zip')
-    with ZipFile(dataset_destination, 'r') as inzip, ZipFile(tmppath, 'w') as outzip:
+    tmppath = 'tmp.zip'
+    with ZipFile(dataset_name, 'r') as inzip, ZipFile(tmppath, 'w') as outzip:
         for item in inzip.infolist():
             if item.filename == 'dataset.json':
                 with inzip.open('dataset.json', 'r') as f:
@@ -75,8 +70,15 @@ def main(path, stylegan_path, dataset_destination, options):
                 # copy the file
                 data = inzip.read(item.filename)
                 outzip.writestr(item.filename, data)
-    shutil.move(tmppath, dataset_destination)
-                
+    shutil.move(tmppath, dataset_name)
+
+    # move the dataset to the final destination
+    os.chdir(mydir)
+    if dataset_destination == '':
+        dataset_destination = dataset_name
+    elif not dataset_destination.endswith('.zip'):
+        dataset_destination = os.path.join(dataset_destination, dataset_name)
+    shutil.move(os.path.join(path, dataset_name), dataset_destination)
 
     print("Done. Your dataset is in {}.".format(dataset_destination))
     print("You can train a StyleGAN model with the following command: ")
