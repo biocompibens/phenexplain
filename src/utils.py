@@ -51,7 +51,6 @@ def convert_image(im):
     im = im.cpu().numpy()
     im = (im*255).astype('uint8')
     im = np.swapaxes(np.swapaxes(im,0,2),0,1)
-    im = im[:,:,::-1]
     return im
 
 
@@ -96,21 +95,15 @@ def convert(images, labels = None, labels_sequential = False, labels_outside = T
 
 
 def save_png(image, filename):
-    im = image[:,:,::-1]
-    Image.fromarray(im).save(filename)
+    Image.fromarray(image).save(filename)
 
 
 def save_gif(images, filename, fps=5):
-    def remap(im):
-        r = im[:, :, 0].copy()
-        im[:, :, 0] = im[:, :, 2]
-        im[:, :, 2] = r
-        return im
-    first = remap(images[0])
-    rest = [Image.fromarray(remap(im)) for im in images[1:]]
-    Image.fromarray(remap(images[0])).save(filename, save_all=True,
-                                           append_images=rest,
-                                           duration=1000//fps, loop=0)
+    first = images[0]
+    rest = [Image.fromarray(im) for im in images[1:]]
+    Image.fromarray(first).save(filename, save_all=True,
+                                append_images=rest,
+                                duration=1000//fps, loop=0)
 
 
 def save_video(images, filename, fps=5):
@@ -123,6 +116,7 @@ def save_video(images, filename, fps=5):
         raise Exception('Unknown video format')
     video = cv2.VideoWriter(filename, fourcc, fps, (width,height))
     for im in images:
+        im = im[:,:,::-1]
         video.write(im)
     cv2.destroyAllWindows()
     video.release()
