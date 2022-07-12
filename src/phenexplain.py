@@ -185,7 +185,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
             for j, im in enumerate(output_images):
                 save_png(im, os.path.join(output, str(id), '%02d.png' % j))
                 paths.append('%02d.png' % j)
-            make_html_index(os.path.join(output, str(id)), paths)
+            make_simple_index(os.path.join(output, str(id)), paths)
             print("The results can be seen in {}".format(os.path.join(output, str(id),
                                                                       'index.html')))
 
