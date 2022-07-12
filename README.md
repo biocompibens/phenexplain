@@ -45,7 +45,7 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. 
 
-### Using Phenexplain on your trained network
+### Using Phenexplain on your trained network (GPU required!)
 
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing regular backups of the network called `network-snapshot-xxx.pkl`. Use one of the last snapshots with Phenexplain to explore transitions between classes.
 
