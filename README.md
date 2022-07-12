@@ -27,7 +27,7 @@
 
 `python phenexplain.py BBBC021_selection.zip -M grid -n 5 -t 0,72 -o real.png -R`
 
-## Using Phenexplain on your own dataset
+## Using Phenexplain on your own dataset (GPU required!)
 
 ### Preparing your dataset for training
 
@@ -45,7 +45,7 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. 
 
-### Using Phenexplain on your trained network (GPU required!)
+### Using Phenexplain on your trained network
 
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing regular backups of the network called `network-snapshot-xxx.pkl`. Use one of the last snapshots with Phenexplain to explore transitions between classes.
 
