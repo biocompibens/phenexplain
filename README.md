@@ -47,7 +47,7 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 `python [stylegan-path]/train.py --data DATASET.zip --outdir runs --mirror 1 --cond 1`
 
-Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. 
+Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. As a rule of thumb, the BBBC021_weights.pkl file provided above required 2 days of training on a server with 4x NVIDIA A100 to reach a FID of 1. A dataset with a lower amount of images and conditions may require a shorter training.  
 
 ### Using Phenexplain on your trained network
 
