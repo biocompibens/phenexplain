@@ -27,6 +27,10 @@
 
 `python phenexplain.py BBBC021_selection.zip -M grid -n 5 -t 0,72 -o real.png -R`
 
+* You may take a look on additional options to build grids, save to other output formats etc.:
+
+`python phenexplain.py --help`
+
 ## Using Phenexplain on your own dataset (GPU required!)
 
 ### Preparing your dataset for training
