@@ -1,6 +1,7 @@
 import pickle
 import os
 import numpy as np
+import sys
 import torch
 import torch.nn.functional as F
 from torchvision import transforms, utils
@@ -182,6 +183,11 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
         elif output.endswith('.png'):
             save_png(output_images[1], output)
             print("Saved in file {}".format(output))
+        elif '.' in output:
+            print("File format not understood. Please use .avi, .gif, .png or .apng, "+
+                  "or don't use a dot in the filename if you want a directory of individual images.",
+                  file=sys.stderr)
+            sys.exit(-12)
         else:
             id = np.random.randint(1,10000000000,1)[0]
             os.makedirs(os.path.join(output, str(id)))
