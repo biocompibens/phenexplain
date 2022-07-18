@@ -27,6 +27,10 @@
 
 `python phenexplain.py BBBC021_selection.zip -M grid -n 5 -t 0,72 -o real.png -R`
 
+* You may take a look on additional options to build grids, save to other output formats etc.:
+
+`python phenexplain.py --help`
+
 ## Using Phenexplain on your own dataset (GPU required!)
 
 ### Preparing your dataset for training
@@ -43,13 +47,13 @@ Once the dataset has been prepared as a DATASET.zip file, you can train a condit
 
 `python [stylegan-path]/train.py --data DATASET.zip --outdir runs --mirror 1 --cond 1`
 
-Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. 
+Make sure you trained StyleGAN2 long enough to consistently generate good images. The FID you may observe during training through a tensorboard instance must end up very low. As a rule of thumb, the BBBC021_weights.pkl file provided above required 2 days of training on a server with 4x NVIDIA A100 to reach a FID of 1. A dataset with a lower amount of images and conditions may require a shorter training.  
 
 ### Using Phenexplain on your trained network
 
 The previous command produces a subdirectory in the `runs` directory of StyleGAN2, containing regular backups of the network called `network-snapshot-xxx.pkl`. Use one of the last snapshots with Phenexplain to explore transitions between classes.
 
-* Get the indices of the available condition indices:
+* Get the available condition indices:
 
 `python phenexplain.py DATASET.zip -l`
 
