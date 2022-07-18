@@ -105,6 +105,13 @@ def save_gif(images, filename, fps=5):
                                 append_images=rest,
                                 duration=1000//fps, loop=0)
 
+def save_apng(images, filename, fps=5):
+    first = images[0]
+    rest = [Image.fromarray(im) for im in images[1:]]
+    Image.fromarray(first).save(filename, save_all=True,
+                                append_images=rest,
+                                duration=1000//fps, loop=0)
+
 
 def save_video(images, filename, fps=5):
     height, width = images[0].shape[:2]

@@ -5,7 +5,8 @@ import torch
 import torch.nn.functional as F
 from torchvision import transforms, utils
 
-from src.utils import save_gif, save_png, save_video, convert, convert_image
+from src.utils import save_gif, save_png, save_video, convert, convert_image,\
+    save_apng
 from src.html import make_simple_index, make_list_index
 
 
@@ -174,6 +175,9 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
             print("Saved in file {}".format(output))
         elif output.endswith('.gif'):
             save_gif(output_images, output, fps=10)
+            print("Saved in file {}".format(output))
+        elif output.endswith('.apng'):
+            save_apng(output_images, output, fps=10)
             print("Saved in file {}".format(output))
         elif output.endswith('.png'):
             save_png(output_images[1], output)
