@@ -180,7 +180,7 @@ def grid(stylegan_weights, clazz, class_idxs, output=None,
             save_apng(output_images, output, fps=10)
             print("Saved in file {}".format(output))
         elif output.endswith('.png'):
-            save_png(output_images[1], output)
+            save_png(output_images[-1], output)
             print("Saved in file {}".format(output))
         elif '.' in output:
             print("File format not understood. Please use .avi, .gif, .png or .apng, "+
