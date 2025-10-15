@@ -31,7 +31,7 @@
 
 `python phenexplain.py --help`
 
-## Using Phenexplain on your own dataset (GPU required!)
+## Using Phenexplain with your own dataset (GPU required!)
 
 ### Preparing your dataset for training
 
