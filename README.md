@@ -66,3 +66,5 @@ The previous command produces a subdirectory in the `runs` directory of StyleGAN
 This work is released under the MIT licence.
 
 ## Citation
+
+Lamiable, A., Champetier, T., Leonardi, F. et al. Revealing invisible cell phenotypes with conditional generative modeling. Nat Commun 14, 6386 (2023). https://doi.org/10.1038/s41467-023-42124-6
