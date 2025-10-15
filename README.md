@@ -9,7 +9,7 @@
 * The official[ StyleGAN2 repository]( https://github.com/NVlabs/stylegan2-ada-pytorch/) should be cloned inside phenexplain's directory. If installed elsewhere, make sure to use the --stylegan-path option.
 
 
-## Using Phenexplain on a pretrained network
+## Using Phenexplain with a pretrained network
 
 * Download a subset of 73 conditions we prepared (each compound_concentration being a separate condition) from the BBBC021 dataset: [BBBC021_selection.zip](https://phenexplain.bio.ens.psl.eu/datasets/BBBC021_selection.zip) (5.4G). It contains images cropped around each nucleus and condition annotations.
 
